@@ -1,7 +1,9 @@
 [package]
-name = "file"
+name = "batch_rename"
 version = "0.1.0"
 edition = "2021"
+license = "MIT"
+description = "A simple command line tool for batch rename files."
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
