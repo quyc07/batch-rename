@@ -12,11 +12,11 @@ fn main() {
 
     for i in 1..args.len() {
         if args[i] == "-path" {
-            path = &args[i+1];
+            path = &args[i + 1];
         } else if args[i] == "-prefix" {
-            prefix = &args[i+1];
+            prefix = &args[i + 1];
         } else if args[i] == "-new" {
-            new_name = &args[i+1];
+            new_name = &args[i + 1];
             use_new_name = true;
         } else if args[i] == "-help" {
             show_help = true;
@@ -36,19 +36,10 @@ fn main() {
         println!("-help: show this help message");
         return;
     }
-    // FIXME 第一次排序后，修改了第最后一个文件，再排序会删除前面的文件
-    let mut file_map = HashMap::new();
     let files = fs::read_dir(path).unwrap();
-    for file in files {
-        let file_name = file.unwrap().file_name();
-        let metadata = fs::metadata(format!("{}/{}", path, file_name.to_str().unwrap())).unwrap();
-        let modified_time = metadata.modified().unwrap();
-        file_map.insert(file_name.to_str().unwrap().to_string(), modified_time);
-    }
-    let mut sorted_files: Vec<_> = file_map.iter().collect();
-    sorted_files.sort_by(|a, b| b.1.cmp(a.1));
     let mut count = 1;
-    for (file_name, _) in sorted_files {
+    for file in files {
+        let file_name = file.unwrap().file_name().into_string().unwrap();
         let new_file_name = if use_new_name {
             format!("{}{}.{}", new_name, count, file_name.split('.').last().unwrap())
         } else {
