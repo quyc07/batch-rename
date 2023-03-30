@@ -4,7 +4,7 @@ use std::fs;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
-    let mut path = "";
+    let mut path = String::new();
     let mut prefix = "";
     let mut postfix = "";
     let mut replace = "";
@@ -17,48 +17,54 @@ fn main() {
     let mut options_exist = HashSet::new();
 
     for i in 1..args.len() {
-        if args[i] == "-path" {
+        if args[i] == "--path" {
             check_option_exist(&mut options_exist, &args[i]);
-            path = &args[i + 1];
-        } else if args[i] == "-prefix" {
+            path = args[i + 1].clone();
+            if !path.ends_with("/") {
+                path.push_str("/");
+            }
+        } else if args[i] == "--prefix" {
             check_option_exist(&mut options_exist, &args[i]);
             prefix = &args[i + 1];
-        } else if args[i] == "-postfix" {
+        } else if args[i] == "--postfix" {
             check_option_exist(&mut options_exist, &args[i]);
             postfix = &args[i + 1];
-        } else if args[i] == "-replace" {
+        } else if args[i] == "--replace" {
             check_option_exist(&mut options_exist, &args[i]);
             replace = &args[i + 1];
             replace_to = &args[i + 2];
             need_replace = true;
-        } else if args[i] == "-new" {
+        } else if args[i] == "--new" {
             check_option_exist(&mut options_exist, &args[i]);
             new_name = &args[i + 1];
             use_new_name = true;
-        } else if args[i] == "-help" {
+        } else if args[i] == "--help" {
             show_help = true;
         }
     }
 
-    if path == "" {
-        println!("The -path parameter is required.");
+    if path == "" && !show_help {
+        println!("The --path parameter is required.");
         return;
     }
 
     if show_help {
-        println!("Usage: ./path/to/program [-path <path>] [-prefix <prefix>] [-new <new_name>] [-replace <old> <new>] [-postfix <postfix>] [-help]");
+        println!("Usage: batch_rename [OPTIONS]\n");
+        println!("Options:");
         println!(
-            "-path: the path to the directory containing the files to be renamed (default: none)"
+            "  --path <path>         The path to the directory containing the files to rename."
         );
+        println!("  --prefix <prefix>     The prefix to add to the file names.");
+        println!("  --postfix <postfix>   The postfix to add to the file names.");
         println!(
-            "-prefix: the prefix to be added to the beginning of each file name (default: none)"
+            "  --replace <old> <new> Replace the old string in the file names with the new string."
         );
-        println!("-new: the new name to be used for all files (default: none)");
-        println!("-replace: replace all occurrences of <old> with <new> in the file names (default: none)");
-        println!("-postfix: the postfix to be added to the end of each file name (default: none)");
-        println!("-help: show this help message");
+        println!("  --new <name>          Use a new name for the files, with a number appended to each file name.");
+        println!("  --help                Print this help message.");
+        return;
     }
-    let files = fs::read_dir(path).unwrap();
+
+    let files = fs::read_dir(&path).unwrap();
     let mut count = 1;
     for file in files {
         let file_name = file.unwrap().file_name().into_string().unwrap();
