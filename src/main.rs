@@ -1,3 +1,4 @@
+use std::collections::HashSet;
 use std::env;
 use std::fs;
 
@@ -13,18 +14,25 @@ fn main() {
     let mut show_help = false;
     let mut need_replace = false;
 
+    let mut options_exist = HashSet::new();
+
     for i in 1..args.len() {
         if args[i] == "-path" {
+            check_option_exist(&mut options_exist, &args[i]);
             path = &args[i + 1];
         } else if args[i] == "-prefix" {
+            check_option_exist(&mut options_exist, &args[i]);
             prefix = &args[i + 1];
         } else if args[i] == "-postfix" {
+            check_option_exist(&mut options_exist, &args[i]);
             postfix = &args[i + 1];
         } else if args[i] == "-replace" {
+            check_option_exist(&mut options_exist, &args[i]);
             replace = &args[i + 1];
             replace_to = &args[i + 2];
             need_replace = true;
         } else if args[i] == "-new" {
+            check_option_exist(&mut options_exist, &args[i]);
             new_name = &args[i + 1];
             use_new_name = true;
         } else if args[i] == "-help" {
@@ -61,5 +69,11 @@ fn main() {
         };
         fs::rename(format!("{}/{}", path, file_name), format!("{}/{}", path, new_file_name)).unwrap();
         count += 1;
+    }
+}
+
+fn check_option_exist<'a>(options_exist: &mut HashSet<&'a String>, option: &'a String) {
+    if options_exist.insert(option) {
+        panic!("Option {} has been set more than ones, please check the options", option);
     }
 }
