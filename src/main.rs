@@ -44,10 +44,15 @@ fn main() {
         println!("The -path parameter is required.");
         return;
     }
+
     if show_help {
         println!("Usage: ./path/to/program [-path <path>] [-prefix <prefix>] [-new <new_name>] [-replace <old> <new>] [-postfix <postfix>] [-help]");
-        println!("-path: the path to the directory containing the files to be renamed (default: none)");
-        println!("-prefix: the prefix to be added to the beginning of each file name (default: none)");
+        println!(
+            "-path: the path to the directory containing the files to be renamed (default: none)"
+        );
+        println!(
+            "-prefix: the prefix to be added to the beginning of each file name (default: none)"
+        );
         println!("-new: the new name to be used for all files (default: none)");
         println!("-replace: replace all occurrences of <old> with <new> in the file names (default: none)");
         println!("-postfix: the postfix to be added to the end of each file name (default: none)");
@@ -58,7 +63,12 @@ fn main() {
     for file in files {
         let file_name = file.unwrap().file_name().into_string().unwrap();
         let new_file_name = if use_new_name {
-            format!("{}{}.{}", new_name, count, file_name.split('.').last().unwrap())
+            format!(
+                "{}{}.{}",
+                new_name,
+                count,
+                file_name.split('.').last().unwrap()
+            )
         } else if need_replace {
             let file_name = file_name.replace(replace, replace_to);
             let x: Vec<&str> = file_name.split(".").collect();
@@ -67,13 +77,20 @@ fn main() {
             let x: Vec<&str> = file_name.split(".").collect();
             format!("{}{}{}.{}", prefix, x[0], postfix, x[1])
         };
-        fs::rename(format!("{}/{}", path, file_name), format!("{}/{}", path, new_file_name)).unwrap();
+        fs::rename(
+            format!("{}/{}", path, file_name),
+            format!("{}/{}", path, new_file_name),
+        )
+        .unwrap();
         count += 1;
     }
 }
 
 fn check_option_exist<'a>(options_exist: &mut HashSet<&'a String>, option: &'a String) {
-    if options_exist.insert(option) {
-        panic!("Option {} has been set more than ones, please check the options", option);
+    if !options_exist.insert(option) {
+        panic!(
+            "Option {} has been set more than ones, please check the options",
+            option
+        );
     }
 }
