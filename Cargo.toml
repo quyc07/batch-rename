@@ -4,6 +4,13 @@ version = "0.1.2"
 edition = "2021"
 license = "MIT"
 description = "A simple command line tool for batch rename files."
+readme = "README.md"
+keywords = ["batch rename", "command line", "file", "rename"]
+categories = ["command-line-utilities"]
+
+[[bin]]
+path = "src/main.rs"
+name = "br"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
