@@ -21,7 +21,7 @@ impl ParamParser {
             } else if args[i] == "--prefix" {
                 check_option_exist(&mut options_exist, &args[i]);
                 br_args.prefix = Some(args[i + 1].clone());
-            } else if args[i] == "--postfix" {
+            } else if args[i] == "--suffix" {
                 check_option_exist(&mut options_exist, &args[i]);
                 br_args.suffix = Some(args[i + 1].clone());
             } else if args[i] == "--replace" {
