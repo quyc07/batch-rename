@@ -7,7 +7,7 @@ description = "A simple command line tool for batch rename files."
 readme = "README.md"
 keywords = ["rename"]
 categories = ["command-line-utilities"]
-
+repository = "https://github.com/quyc07/batch-rename"
 [[bin]]
 path = "src/main.rs"
 name = "br"
