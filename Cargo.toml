@@ -5,7 +5,7 @@ edition = "2021"
 license = "MIT"
 description = "A simple command line tool for batch rename files."
 readme = "README.md"
-keywords = ["batch rename", "command line", "file", "rename"]
+keywords = ["rename"]
 categories = ["command-line-utilities"]
 
 [[bin]]
