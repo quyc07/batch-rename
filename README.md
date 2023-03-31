@@ -32,10 +32,11 @@ br [OPTIONS]
 
 - `--path <path>`: The path to the directory containing the files to rename.
 - `--prefix <prefix>`: The prefix to add to the file names.
-- `--postfix <postfix>`: The postfix to add to the file names.
+- `--suffix <postfix>`: The suffix to add to the file names.
 - `--replace <old> <new>`: Replace the old string in the file names with the new string.
 - `--new <name>`: Use a new name for the files, with a number appended to each file name.
 - `--help`: Print this help message.
+- `--version`: Print the version of the program.
 
 ## Example
 
