@@ -6,7 +6,7 @@ use crate::param_parser::ParamParser;
 mod param_parser;
 
 fn main() {
-    let br_args = ParamParser::parse_args(env::args());
+    let br_args = ParamParser::parse_args(env::args().collect());
 
     if br_args.show_help {
         println!("Usage: br [OPTIONS]\n");
